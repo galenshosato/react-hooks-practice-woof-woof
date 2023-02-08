@@ -10,6 +10,7 @@ function App() {
     "isGoodDog": true,
     "image": "https://curriculum-content.s3.amazonaws.com/js/woof-woof/dog_1.jpg"
   })
+  const [isFiltered, setIsFiltered] = useState(false)
  
 
   useEffect(() => {
@@ -27,19 +28,27 @@ function App() {
 
   }
 
+  const filteredList = pups.filter(pup => {
+    return pup.isGoodDog === true
+  })
+
+  function handleGoodClick(event) { 
+    setIsFiltered(prev => !prev)
+  }
+
 
   return (
     <div className="App">
       <div id="filter-div">
-        <button id="good-dog-filter">Filter good dogs: OFF</button>
+        <button id="good-dog-filter" onClick={handleGoodClick}>Filter good dogs: {isFiltered ? "ON" : "OFF"}</button>
       </div>
       <div id="dog-bar">
-        <Span pups={pups} onHandleClick={onHandleClick} />
+        <Span pups={isFiltered ? filteredList : pups } onHandleClick={onHandleClick} />
       </div>
       <div id="dog-summary-container">
         <h1>DOGGO:</h1>
         <div id="dog-info">
-          <Info info={info} />
+          <Info info={info} setInfo={setInfo} />
         </div>
       </div>
     </div>
